@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import lobbyService from '../../services/lobbyService'
+import LobbyModal from '../../components/LobbyModal/LobbyModal'
 
 import './LobbiesPage.css';
 
@@ -47,8 +48,13 @@ class LobbiesPage extends Component {
         lobbies: updatedLobbies,
         recentlyDeleted: recentlyDeleted
       })
-      }
-    );
+
+      // ([
+      // <div key={lobby._id}>Lobby: {lobby._id}</div>,
+      // <button key={'b' + lobby._id} onClick={this.deleteLobby.bind(this, lobby._id)}>Delete</button>
+      // ])
+
+    });
 	}
 
 	render() {
@@ -57,10 +63,7 @@ class LobbiesPage extends Component {
 				<button onClick={this.createLobby.bind(this)}>Create Lobby</button>
         {this.state.lobbies ?
           this.state.lobbies.map((lobby, index) =>
-            ([
-            <div key={lobby._id}>Lobby: {lobby._id}</div>,
-            <button key={'b' + lobby._id} onClick={this.deleteLobby.bind(this, lobby._id)}>Delete</button>
-            ])
+            <LobbyModal key={lobby._id} lobby={lobby} deleteLobby={this.deleteLobby.bind(this)}></LobbyModal>
           )
           :
           <div>No Lobbies Found</div>
