@@ -12,10 +12,19 @@ class LobbyService {
     return this.request({method: 'GET', url: '/api/lobbies'})
       .then((response) => response.data);
   }
-  
+
+  findLobby(lobbyName) {
+    return this.request({method: 'GET', url: `/api/lobbies/find/${lobbyName}`})
+      .then((response) => {
+        // console.log(response);
+        return response.data
+      });
+  }
+
   createLobby(lobbyName) {
     return this.request({method: 'POST', url: '/api/lobbies/new', data: {name: lobbyName}})
       .then((response) => response.data.lobby);
+      // .catch(error => console.log(error.response));
   }
 
   deleteLobby(lobbyId) {

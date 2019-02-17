@@ -11,7 +11,8 @@ class LobbiesPage extends Component {
 			currentUser: null,
       lobbies: null,
       recentlyDeleted: null,
-      lobbyName: ''
+      lobbyName: '',
+      errorMessage: null
 		}
 	}
   componentDidMount() {
@@ -32,9 +33,42 @@ class LobbiesPage extends Component {
     });
   }
 
+  validateLobby() {
+    const lobbyName = this.state.lobbyName;
+    if(lobbyName === '') {
+      this.setState({
+        errorMessage: 'Lobby name cannot be blank'
+      }, () => console.error(this.state.errorMessage));
+      return false;
+    }
+    for (var i = 0; i < this.state.lobbies.length; i++) {
+      if(this.state.lobbies[i].name === lobbyName) {
+        this.setState({
+          errorMessage: 'Duplicate lobby name, lobby names must be unique'
+        }, () => console.error(this.state.errorMessage));
+        return false;
+      }
+    }
+  }
+
 	createLobby(e) {
     e.preventDefault();
     const lobbyName = this.state.lobbyName;
+    if(!this.validateLobby()) return;
+    // this.validateLobby.bind(this);
+    // lobbyService.findLobby(lobbyName).then(lobby => {
+    //   // console.log(lobby, lobby, lobbyName);
+    //   // if(lobby.length > 0) return console.error('Duplicate name');
+    //   lobbyService.createLobby(lobbyName).then(lobby => {
+    //     var newLobbies = this.state.lobbies.concat(lobby);
+    //     this.setState({
+    //       lobbies: newLobbies,
+    //       lobbyName: '' // clears inputs after submit
+    //     });
+    //   })
+    //   .catch(error => console.log(error.response));
+    // });
+
     lobbyService.createLobby(lobbyName).then(lobby => {
       var newLobbies = this.state.lobbies.concat(lobby);
       this.setState({
@@ -42,6 +76,9 @@ class LobbiesPage extends Component {
         lobbyName: '' // clears inputs after submit
       });
     })
+    .catch(error => console.log(error.response));
+
+    // disabled={!this.state.lobbies}
 	}
 
   deleteLobby(lobbyId) {
@@ -55,7 +92,7 @@ class LobbiesPage extends Component {
       this.setState({
         lobbies: updatedLobbies,
         recentlyDeleted: recentlyDeleted
-      })
+      });
     });
 	}
 
@@ -70,7 +107,7 @@ class LobbiesPage extends Component {
             value={this.state.lobbyName}
             onChange={this.onChange.bind(this)}
           />
-          <button disabled={!this.state.lobbyName}>Create Lobby</button>
+          <button>Create Lobby</button>
         </form>
         {this.state.lobbies ?
           this.state.lobbies.map((lobby, index) =>
