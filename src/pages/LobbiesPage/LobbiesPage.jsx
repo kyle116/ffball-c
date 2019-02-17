@@ -10,7 +10,8 @@ class LobbiesPage extends Component {
 		this.state = {
 			currentUser: null,
       lobbies: null,
-      recentlyDeleted: null
+      recentlyDeleted: null,
+      lobbyName: ''
 		}
 	}
   componentDidMount() {
@@ -25,13 +26,20 @@ class LobbiesPage extends Component {
     });
   }
 
-	createLobby() {
-    lobbyService.createLobby().then(lobby => {
+  onChange(e) {
+    this.setState({
+      lobbyName: e.target.value
+    });
+  }
+
+	createLobby(e) {
+    e.preventDefault();
+    const lobbyName = this.state.lobbyName;
+    lobbyService.createLobby(lobbyName).then(lobby => {
       var newLobbies = this.state.lobbies.concat(lobby);
-      // var newLobbies = this.state.lobbies;
-      // newLobbies.push(lobby);
       this.setState({
-        lobbies: newLobbies
+        lobbies: newLobbies,
+        lobbyName: '' // clears inputs after submit
       });
     })
 	}
@@ -48,19 +56,22 @@ class LobbiesPage extends Component {
         lobbies: updatedLobbies,
         recentlyDeleted: recentlyDeleted
       })
-
-      // ([
-      // <div key={lobby._id}>Lobby: {lobby._id}</div>,
-      // <button key={'b' + lobby._id} onClick={this.deleteLobby.bind(this, lobby._id)}>Delete</button>
-      // ])
-
     });
 	}
 
 	render() {
 		return (
 			<div>
-				<button onClick={this.createLobby.bind(this)}>Create Lobby</button>
+        <form onSubmit={this.createLobby.bind(this)}>
+          <input
+            placeholder="Enter a Name"
+            name="lobbyName"
+            ref="lobbyName"
+            value={this.state.lobbyName}
+            onChange={this.onChange.bind(this)}
+          />
+          <button disabled={!this.state.lobbyName}>Create Lobby</button>
+        </form>
         {this.state.lobbies ?
           this.state.lobbies.map((lobby, index) =>
             <LobbyModal key={lobby._id} lobby={lobby} deleteLobby={this.deleteLobby.bind(this)}></LobbyModal>

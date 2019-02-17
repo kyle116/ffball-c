@@ -12,9 +12,9 @@ class LobbyService {
     return this.request({method: 'GET', url: '/api/lobbies'})
       .then((response) => response.data);
   }
-
-  createLobby() {
-    return this.request({method: 'POST', url: '/api/lobbies/new'})
+  
+  createLobby(lobbyName) {
+    return this.request({method: 'POST', url: '/api/lobbies/new', data: {name: lobbyName}})
       .then((response) => response.data.lobby);
   }
 
