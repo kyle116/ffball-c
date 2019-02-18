@@ -49,6 +49,7 @@ class LobbiesPage extends Component {
         return false;
       }
     }
+    return true;
   }
 
 	createLobby(e) {
@@ -68,7 +69,6 @@ class LobbiesPage extends Component {
     //   })
     //   .catch(error => console.log(error.response));
     // });
-
     lobbyService.createLobby(lobbyName).then(lobby => {
       var newLobbies = this.state.lobbies.concat(lobby);
       this.setState({
