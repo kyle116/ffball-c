@@ -14,6 +14,11 @@ class LobbiesPage extends Component {
       lobbyName: '',
       errorMessage: null
 		}
+    this.getLobbies = this.getLobbies.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.validateLobby = this.validateLobby.bind(this);
+    this.createLobby = this.createLobby.bind(this);
+    this.deleteLobby = this.deleteLobby.bind(this);
 	}
   componentDidMount() {
     this.getLobbies();
@@ -99,19 +104,22 @@ class LobbiesPage extends Component {
 	render() {
 		return (
 			<div>
-        <form onSubmit={this.createLobby.bind(this)}>
-          <input
-            placeholder="Enter a Name"
-            name="lobbyName"
-            ref="lobbyName"
-            value={this.state.lobbyName}
-            onChange={this.onChange.bind(this)}
-          />
+        <form onSubmit={this.createLobby}>
+          <label>
+            Lobby Name:&nbsp;
+            <input
+              placeholder="Enter a Name"
+              name="lobbyName"
+              ref="lobbyName"
+              value={this.state.lobbyName}
+              onChange={this.onChange}
+            />
+          </label>
           <button>Create Lobby</button>
         </form>
         {this.state.lobbies ?
           this.state.lobbies.map((lobby, index) =>
-            <LobbyModal key={lobby._id} lobby={lobby} deleteLobby={this.deleteLobby.bind(this)}></LobbyModal>
+            <LobbyModal key={lobby._id} lobby={lobby} deleteLobby={this.deleteLobby}></LobbyModal>
           )
           :
           <div>No Lobbies Found</div>
