@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import lobbyService from '../../services/lobbyService'
-import LobbyModal from '../../components/LobbyModal/LobbyModal'
-
+// Services
+import lobbyService from '../../services/lobbyService';
+// Components
+import LobbyModal from '../../components/LobbyModal/LobbyModal';
+import FlashMessage from '../../components/FlashMessage/FlashMessage';
+// Stylesheets
 import './LobbiesPage.css';
 
 class LobbiesPage extends Component {
@@ -61,19 +64,7 @@ class LobbiesPage extends Component {
     e.preventDefault();
     const lobbyName = this.state.lobbyName;
     if(!this.validateLobby()) return;
-    // this.validateLobby.bind(this);
-    // lobbyService.findLobby(lobbyName).then(lobby => {
-    //   // console.log(lobby, lobby, lobbyName);
-    //   // if(lobby.length > 0) return console.error('Duplicate name');
-    //   lobbyService.createLobby(lobbyName).then(lobby => {
-    //     var newLobbies = this.state.lobbies.concat(lobby);
-    //     this.setState({
-    //       lobbies: newLobbies,
-    //       lobbyName: '' // clears inputs after submit
-    //     });
-    //   })
-    //   .catch(error => console.log(error.response));
-    // });
+
     lobbyService.createLobby(lobbyName).then(lobby => {
       var newLobbies = this.state.lobbies.concat(lobby);
       this.setState({
@@ -82,8 +73,6 @@ class LobbiesPage extends Component {
       });
     })
     .catch(error => console.log(error.response));
-
-    // disabled={!this.state.lobbies}
 	}
 
   deleteLobby(lobbyId) {
@@ -104,6 +93,9 @@ class LobbiesPage extends Component {
 	render() {
 		return (
 			<div>
+        <FlashMessage duration={5000} persistOnHover={true}>
+          <strong>Test message</strong>
+        </FlashMessage>
         <form onSubmit={this.createLobby}>
           <label>
             Lobby Name:&nbsp;
