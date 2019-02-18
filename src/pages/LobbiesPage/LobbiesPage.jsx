@@ -15,13 +15,14 @@ class LobbiesPage extends Component {
       lobbies: null,
       recentlyDeleted: null,
       lobbyName: '',
-      errorMessage: null
+      flashMessage: { display: false, message: '' }
 		}
     this.getLobbies = this.getLobbies.bind(this);
     this.onChange = this.onChange.bind(this);
     this.validateLobby = this.validateLobby.bind(this);
     this.createLobby = this.createLobby.bind(this);
     this.deleteLobby = this.deleteLobby.bind(this);
+    this.flashMessageToggle = this.flashMessageToggle.bind(this);
 	}
   componentDidMount() {
     this.getLobbies();
@@ -44,16 +45,12 @@ class LobbiesPage extends Component {
   validateLobby() {
     const lobbyName = this.state.lobbyName;
     if(lobbyName === '') {
-      this.setState({
-        errorMessage: 'Lobby name cannot be blank'
-      }, () => console.error(this.state.errorMessage));
+      this.flashMessageToggle('Lobby name cannot be blank');
       return false;
     }
     for (var i = 0; i < this.state.lobbies.length; i++) {
       if(this.state.lobbies[i].name === lobbyName) {
-        this.setState({
-          errorMessage: 'Duplicate lobby name, lobby names must be unique'
-        }, () => console.error(this.state.errorMessage));
+        this.flashMessageToggle('Duplicate lobby name, lobby names must be unique');
         return false;
       }
     }
@@ -90,12 +87,22 @@ class LobbiesPage extends Component {
     });
 	}
 
+  flashMessageToggle(message = '') {
+    var flashMessage = {...this.state.flashMessage};
+    flashMessage.display = !flashMessage.display;
+    flashMessage.message = message;
+    this.setState({flashMessage});
+    if(message) console.error(message);
+  }
+
 	render() {
 		return (
 			<div>
-        <FlashMessage duration={5000} persistOnHover={true}>
-          <strong>Test message</strong>
+      {this.state.flashMessage.display &&
+        <FlashMessage duration={3000} persistOnHover={true} flashMessageToggle={this.flashMessageToggle}>
+          <strong>{this.state.flashMessage.message}</strong>
         </FlashMessage>
+      }
         <form onSubmit={this.createLobby}>
           <label>
             Lobby Name:&nbsp;

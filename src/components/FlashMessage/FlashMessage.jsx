@@ -7,8 +7,7 @@ import './FlashMessage.css';
 class FlashMessage extends Component {
   constructor(props) {
     super(props);
-
-    this.state = { isVisible: true };
+    this.state = { isVisible: this.props.isVisible };
 
     this.hide = this.hide.bind(this);
     this.resumeTimer = this.resumeTimer.bind(this);
@@ -26,6 +25,7 @@ class FlashMessage extends Component {
 
   hide() {
     this.setState({ isVisible: false });
+    this.props.flashMessageToggle();
   }
 
   resumeTimer() {
@@ -59,12 +59,14 @@ FlashMessage.defaultProps = {
   children: null,
   duration: 5000,
   persistOnHover: true,
+  isVisible: true
 };
 
 FlashMessage.propTypes = {
   children: node,
   duration: number,
   persistOnHover: bool,
+  isVisible: bool
 };
 
 export default FlashMessage;
