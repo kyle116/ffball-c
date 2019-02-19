@@ -1,14 +1,14 @@
 import React from 'react';
 
-import './LobbyModal.css';
+import './LobbyCard.css';
 
-const LobbyModal = (props) => {
+const LobbyCard = (props) => {
   return (
-    <div className="lobbyModal">
+    <div className="lobbyCard">
       <div className="lobbyTitle">Lobby: {props.lobby.name}</div>
       <button onClick={() => props.deleteLobby(props.lobby._id)}>Delete</button>
     </div>
   )
 }
 
-export default LobbyModal;
+export default LobbyCard;

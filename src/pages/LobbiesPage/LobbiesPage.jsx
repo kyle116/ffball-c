@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // Services
 import lobbyService from '../../services/lobbyService';
 // Components
-import LobbyModal from '../../components/LobbyModal/LobbyModal';
+import LobbyCard from '../../components/LobbyCard/LobbyCard';
 import FlashMessage from '../../components/FlashMessage/FlashMessage';
 // Stylesheets
 import './LobbiesPage.css';
@@ -118,7 +118,7 @@ class LobbiesPage extends Component {
         </form>
         {this.state.lobbies ?
           this.state.lobbies.map((lobby, index) =>
-            <LobbyModal key={lobby._id} lobby={lobby} deleteLobby={this.deleteLobby}></LobbyModal>
+            <LobbyCard key={lobby._id} lobby={lobby} deleteLobby={this.deleteLobby}></LobbyCard>
           )
           :
           <div>No Lobbies Found</div>
