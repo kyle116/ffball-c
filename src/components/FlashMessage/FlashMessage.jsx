@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { node, number, bool, string } from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
+import { node, number, bool, oneOf } from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 // import lobbyService from '../../services/lobbyService'
 
 import './FlashMessage.css';
@@ -68,7 +68,7 @@ FlashMessage.propTypes = {
   duration: number,
   persistOnHover: bool,
   isVisible: bool,
-  type: string
+  type: oneOf(['error', 'success'])
 };
 
 export default FlashMessage;
