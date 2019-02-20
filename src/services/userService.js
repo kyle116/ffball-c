@@ -8,9 +8,9 @@ class UserService {
     });
   }
 
-  testFunction() {
-    return this.request({method: 'GET', url: '/api/lobbies'})
-      .then((response) => console.log(response.data));
+  createUser(userData) {
+    return this.request({method: 'POST', url: '/api/users/new', data: userData})
+      .then((response) => response.data.user);
   }
 }
 
