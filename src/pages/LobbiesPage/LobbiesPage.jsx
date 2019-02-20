@@ -99,7 +99,7 @@ class LobbiesPage extends Component {
 		return (
 			<div>
       {this.state.flashMessage.display &&
-        <FlashMessage duration={3000} persistOnHover={true} flashMessageToggle={this.flashMessageToggle}>
+        <FlashMessage duration={3000} persistOnHover={true} flashMessageToggle={this.flashMessageToggle} type="error">
           <strong>{this.state.flashMessage.message}</strong>
         </FlashMessage>
       }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { node, number, bool } from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
+import { node, number, bool, string } from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 // import lobbyService from '../../services/lobbyService'
 
 import './FlashMessage.css';
@@ -59,14 +59,16 @@ FlashMessage.defaultProps = {
   children: null,
   duration: 5000,
   persistOnHover: true,
-  isVisible: true
+  isVisible: true,
+  type: 'error'
 };
 
 FlashMessage.propTypes = {
   children: node,
   duration: number,
   persistOnHover: bool,
-  isVisible: bool
+  isVisible: bool,
+  type: string
 };
 
 export default FlashMessage;
