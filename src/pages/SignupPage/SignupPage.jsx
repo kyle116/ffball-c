@@ -32,25 +32,6 @@ class SignupPage extends Component {
     this.setState({signupData});
   }
 
-  // handleSubmit(e) {
-  //   e.preventDefault();
-  //   const signupData = this.state.signupData;
-  //   userService.createUser(signupData).then((user) => {
-  //     // redirect to lobby page
-  //     const loginCredentials = {
-  //       email: user.email,
-  //       password: this.state.signupData.password
-  //     }
-  //     console.log('user', user, loginCredentials);
-  //     userService.loginUser(loginCredentials).then((currentUser) => {
-  //       // redirect to lobby page
-  //       console.log('currentUser', currentUser);
-  //     })
-  //     .catch(error => console.log(error.response));
-  //   })
-  //   .catch(error => console.log(error.response));
-  // }
-
   async handleSubmit(e) {
     e.preventDefault();
     const signupData = this.state.signupData;
@@ -61,14 +42,14 @@ class SignupPage extends Component {
         email: createUser.email,
         password: this.state.signupData.password
       }
-      console.log('createUser', createUser, loginCredentials);
     } catch(error) {
       console.log(error);
     }
 
     try {
       const loginUser = await userService.loginUser(loginCredentials);
-      console.log('loginUser', loginUser);
+      console.log(loginUser);
+      this.props.history.push('/lobbies')
     } catch(error) {
       console.log(error);
     }
