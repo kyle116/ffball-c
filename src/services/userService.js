@@ -12,6 +12,11 @@ class UserService {
     return this.request({method: 'POST', url: '/api/users/new', data: userData})
       .then((response) => response.data.user);
   }
+
+  loginUser(loginCredentials) {
+    return this.request({method: 'POST', url: '/api/users/login', data: loginCredentials})
+      .then((response) => response.data);
+  }
 }
 
 export default new UserService();

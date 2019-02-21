@@ -28,22 +28,50 @@ class SignupPage extends Component {
     const name = target.name;
     const signupData = this.state.signupData;
     signupData[name] = value;
-    console.log(signupData);
-    // Fix Signup Data
 
-    // this.setState({
-    //   signupData.name: value
-    // }, () => console.log(this.state));
+    this.setState({signupData});
   }
 
-  handleSubmit(e) {
+  // handleSubmit(e) {
+  //   e.preventDefault();
+  //   const signupData = this.state.signupData;
+  //   userService.createUser(signupData).then((user) => {
+  //     // redirect to lobby page
+  //     const loginCredentials = {
+  //       email: user.email,
+  //       password: this.state.signupData.password
+  //     }
+  //     console.log('user', user, loginCredentials);
+  //     userService.loginUser(loginCredentials).then((currentUser) => {
+  //       // redirect to lobby page
+  //       console.log('currentUser', currentUser);
+  //     })
+  //     .catch(error => console.log(error.response));
+  //   })
+  //   .catch(error => console.log(error.response));
+  // }
+
+  async handleSubmit(e) {
     e.preventDefault();
     const signupData = this.state.signupData;
-    userService.createUser(signupData).then((user) => {
-      // redirect to lobby page
-      console.log(user);
-    })
-    .catch(error => console.log(error.response));
+    var loginCredentials;
+    try {
+      const createUser = await userService.createUser(signupData);
+      loginCredentials = {
+        email: createUser.email,
+        password: this.state.signupData.password
+      }
+      console.log('createUser', createUser, loginCredentials);
+    } catch(error) {
+      console.log(error);
+    }
+
+    try {
+      const loginUser = await userService.loginUser(loginCredentials);
+      console.log('loginUser', loginUser);
+    } catch(error) {
+      console.log(error);
+    }
   }
 
   render() {
@@ -79,7 +107,6 @@ class SignupPage extends Component {
             Email:
             <input
               name="email"
-              type="email"
               value={this.state.signupData.email}
               onChange={this.handleInputChange} />
           </label>
