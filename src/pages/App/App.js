@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
+// Services
+import userService from '../../services/userService';
 // Pages
 import LandingPage from '../LandingPage/LandingPage';
 import LobbiesPage from '../LobbiesPage/LobbiesPage';
@@ -12,15 +14,23 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentUser: null
+			currentUser: userService.getCurrentUser()
 		}
 		this.setCurrentUser = this.setCurrentUser.bind(this);
+		this.removeCurrentUser = this.removeCurrentUser.bind(this);
 	}
 
 	setCurrentUser(user) {
 		this.setState({
 			currentUser: user
-		})
+		});
+	}
+
+	removeCurrentUser() {
+		userService.clearToken();
+		this.setState({
+			currentUser: null
+		});
 	}
 
 	render() {
@@ -28,7 +38,10 @@ class App extends Component {
 	<Router>
 		<div className="App">
 			<Route exact path='/' component={LandingPage} />
-			<Route exact path='/lobbies' component={LobbiesPage} />
+			<Route
+				exact path='/lobbies'
+				render={(props) => <LobbiesPage {...props} removeCurrentUser={this.removeCurrentUser} />}
+			/>
 			<Route
 				exact path='/signup'
 				render={(props) => <SignupPage {...props} setCurrentUser={this.setCurrentUser} />}

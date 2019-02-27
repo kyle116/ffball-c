@@ -49,8 +49,8 @@ class LoginPage extends Component {
       // Login, sets current user to state, then sets App.js state with currentUser to use globally as props
       this.setState({
         currentUser: loginUser
-      }, () => this.setCurrentUser());
-      this.props.history.push('/lobbies')
+      }, this.setCurrentUser);
+      this.props.history.push('/lobbies');
     } catch(error) {
       console.log(error);
     }

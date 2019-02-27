@@ -30,23 +30,23 @@ class UserService {
 
   // JWT functions
   getCurrentUser() {
-    const token = this.getToken()
-    return token ? jwtDecode(token) : null
+    const token = this.getToken();
+    return token ? jwtDecode(token) : null;
   }
 
   getToken() {
-    return localStorage.getItem('token')
+    return localStorage.getItem('token');
   }
 
   setToken(token) {
-    localStorage.setItem('token', token)
-    this.request.defaults.headers.common.token = token
-    return token
+    localStorage.setItem('token', token);
+    this.request.defaults.headers.common.token = token;
+    return token;
   }
 
   clearToken() {
-    localStorage.removeItem('token')
-    delete this.request.defaults.headers.common.token
+    localStorage.removeItem('token');
+    delete this.request.defaults.headers.common.token;
   }
 }
 

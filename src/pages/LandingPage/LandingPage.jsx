@@ -33,7 +33,8 @@ class LandingPage extends Component {
 				<h1>Welcome</h1>
 				<button type="button" onClick={this.showModal}>Sign Up Pop Up</button>
 				<Link to={'/signup'}>Sign Up Link</Link>
-        <Modal show={this.state.show} handleClose={this.hideModal}>
+				<Link to={'/login'}>Login Link</Link>
+        		<Modal show={this.state.show} handleClose={this.hideModal}>
 					<SignupPage></SignupPage>
 				</Modal>
 			</div>
