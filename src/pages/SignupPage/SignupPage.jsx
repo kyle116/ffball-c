@@ -99,7 +99,7 @@ class SignupPage extends Component {
               value={this.state.signupData.password}
               onChange={this.handleInputChange} />
           </label>
-          <button>Create Lobby</button>
+          <button>Create User</button>
         </form>
       </div>
     )
