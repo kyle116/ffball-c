@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Redirect, Link} from 'react-router-dom';
 // Pages
 import SignupPage from '../SignupPage/SignupPage';
+import LoginPage from '../LoginPage/LoginPage';
 import Modal from '../../components/Modal/Modal';
 // Services
 import lobbyService from '../../services/lobbyService';
@@ -13,29 +14,51 @@ class LandingPage extends Component {
 		super(props);
 		this.state = {
 			currentUser: '',
-			show: false
+			modal: {
+				SignupPage: false,
+				LoginPage: false
+			}
 		}
 		this.showModal = this.showModal.bind(this);
 		this.hideModal = this.hideModal.bind(this);
 	}
 
-	showModal() {
-    this.setState({ show: true });
-  }
+	showModal(page) {
+		var modalState = {...this.state.modal};
 
-  hideModal() {
-    this.setState({ show: false });
-  }
+		if(page === 'SignupPage') {
+			modalState.SignupPage = true;
+		} else if(page === 'LoginPage') {
+			modalState.LoginPage = true;
+		}
+		this.setState({ modal: modalState });
+	}
+
+	hideModal(page) {
+		var modalState = {...this.state.modal};
+
+		if(page === 'SignupPage') {
+			modalState.SignupPage = false;
+		} else if(page === 'LoginPage') {
+			modalState.LoginPage = false;
+		}
+		this.setState({ modal: modalState });
+	}
 
 	render() {
 		return (
 			<div>
 				<h1>Welcome</h1>
-				<button type="button" onClick={this.showModal}>Sign Up Pop Up</button>
+				<button type="button" onClick={() => this.showModal('SignupPage')}>Sign Up Pop Up</button>
 				<Link to={'/signup'}>Sign Up Link</Link>
 				<Link to={'/login'}>Login Link</Link>
-        		<Modal show={this.state.show} handleClose={this.hideModal}>
+				<button type="button" onClick={() => this.showModal('LoginPage')}>Login Pop Up</button>
+        		
+        		<Modal show={this.state.modal.SignupPage} handleClose={() => this.hideModal('SignupPage')}>
 					<SignupPage></SignupPage>
+				</Modal>
+				<Modal show={this.state.modal.LoginPage} handleClose={() => this.hideModal('LoginPage')}>
+					<LoginPage></LoginPage>
 				</Modal>
 			</div>
 		);
