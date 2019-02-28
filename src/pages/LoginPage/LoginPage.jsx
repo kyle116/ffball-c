@@ -7,7 +7,7 @@ import './LoginPage.css';
 
 class LoginPage extends Component {
   constructor(props) {
-		super(props);
+	super(props);
     this.state = {
       modal: this.props.modal,
       signupData: {

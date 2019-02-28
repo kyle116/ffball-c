@@ -1,64 +1,93 @@
 import React, { Component } from 'react';
 import { bool } from 'prop-types';
-// services
+// Services
 import userService from '../../services/userService';
+// Components
+import FlashMessage from '../../components/FlashMessage/FlashMessage';
 // Stylesheets
 import './SignupPage.css';
 
 class SignupPage extends Component {
-  constructor(props) {
+	constructor(props) {
 		super(props);
-    this.state = {
-      modal: this.props.modal,
-      signupData: {
-        firstName: '',
-        lastName: '',
-        username: '',
-        email: '',
-        password: ''
-      }
-    }
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+		this.state = {
+		  modal: this.props.modal,
+		  signupData: {
+		    firstName: '',
+		    lastName: '',
+		    username: '',
+		    email: '',
+		    password: ''
+		  },
+		  flashMessage: { 
+		  	display: false, 
+		  	message: '' 
+		  }
+		}
+		this.handleInputChange = this.handleInputChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.flashMessageToggle = this.flashMessageToggle.bind(this);
+		this.validateEmail = this.validateEmail.bind(this);
+	}
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    const signupData = this.state.signupData;
-    signupData[name] = value;
+	handleInputChange(event) {
+		const target = event.target;
+		const value = target.type === 'checkbox' ? target.checked : target.value;
+		const name = target.name;
+		const signupData = this.state.signupData;
+		signupData[name] = value;
 
-    this.setState({signupData});
-  }
+		this.setState({signupData});
+	}
 
-  async handleSubmit(e) {
-    e.preventDefault();
-    const signupData = this.state.signupData;
-    var loginCredentials;
-    try {
-      const createUser = await userService.createUser(signupData);
-      loginCredentials = {
-        email: createUser.email,
-        password: this.state.signupData.password
-      }
-    } catch(error) {
-      console.log(error);
-    }
+	async handleSubmit(e) {
+		e.preventDefault();
+		const signupData = this.state.signupData;
+		if(!this.validateEmail(signupData.email)) return;
+		var loginCredentials;
+		try {
+		  const createUser = await userService.createUser(signupData);
+		  loginCredentials = {
+		    email: createUser.email,
+		    password: this.state.signupData.password
+		  }
+		} catch(error) {
+		  console.log(error);
+		}
 
-    try {
-      const loginUser = await userService.loginUser(loginCredentials);
-      console.log(loginUser);
-      this.props.history.push('/lobbies')
-    } catch(error) {
-      console.log(error);
-    }
-  }
+		try {
+		  const loginUser = await userService.loginUser(loginCredentials);
+		  this.props.history.push('/lobbies')
+		} catch(error) {
+		  console.log(error);
+		}
+	}
+
+	validateEmail(email) {
+		if(!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
+			this.flashMessageToggle('Invalid email format. Please enter a valid email');
+			return false;
+		}
+		return true;
+	}
+
+	flashMessageToggle(message = '') {
+		var flashMessage = {...this.state.flashMessage};
+		flashMessage.display = !flashMessage.display;
+		flashMessage.message = message;
+		this.setState({flashMessage});
+		if(message) console.error(message);
+	}
 
   render() {
     return (
       <div>
         <h2>Sign Up</h2>
+        {this.state.flashMessage.display &&
+        <FlashMessage duration={3000} persistOnHover={true} flashMessageToggle={this.flashMessageToggle} type="error">
+			<strong>{this.state.flashMessage.message}</strong>
+		</FlashMessage>
+		}
         <form onSubmit={this.handleSubmit}>
           <label>
             First Name:
