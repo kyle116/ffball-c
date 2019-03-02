@@ -5,6 +5,7 @@ import userService from '../../services/userService';
 // Pages
 import LandingPage from '../LandingPage/LandingPage';
 import LobbiesPage from '../LobbiesPage/LobbiesPage';
+import LobbyPage from '../LobbyPage/LobbyPage';
 import SignupPage from '../SignupPage/SignupPage';
 import LoginPage from '../LoginPage/LoginPage';
 // Stylesheets
@@ -41,6 +42,10 @@ class App extends Component {
 			<Route
 				exact path='/lobbies'
 				render={(props) => <LobbiesPage {...props} removeCurrentUser={this.removeCurrentUser} />}
+			/>
+			<Route
+				exact path='/lobby/:lobbyId'
+				render={(props) => <LobbyPage {...props} removeCurrentUser={this.removeCurrentUser} />}
 			/>
 			<Route
 				exact path='/signup'

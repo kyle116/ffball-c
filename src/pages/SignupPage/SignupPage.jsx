@@ -44,7 +44,7 @@ class SignupPage extends Component {
 		e.preventDefault();
 		const signupData = this.state.signupData;
 		if(!this.validateEmail(signupData.email)) return;
-		var loginCredentials;
+		var loginCredentials = {};
 		try {
 		  const createUser = await userService.createUser(signupData);
 		  loginCredentials = {
@@ -55,9 +55,11 @@ class SignupPage extends Component {
 		  console.log(error);
 		}
 
+		if(!loginCredentials.hasOwnProperty('email') || !loginCredentials.hasOwnProperty('password')) return console.error('User signup failed');
+
 		try {
 		  const loginUser = await userService.loginUser(loginCredentials);
-		  this.props.history.push('/lobbies')
+		  this.props.history.push('/lobbies');
 		} catch(error) {
 		  console.log(error);
 		}

@@ -13,10 +13,17 @@ class LobbyService {
       .then((response) => response.data);
   }
 
-  findLobby(lobbyName) {
+  findLobbyById(lobbyId) {
+    return this.request({method: 'GET', url: `/api/lobbies/find/${lobbyId}`})
+      .then((response) => {
+        return response.data
+      });
+  }
+
+  // Future use for search bar of lobbies
+  findLobbyByName(lobbyName) {
     return this.request({method: 'GET', url: `/api/lobbies/find/${lobbyName}`})
       .then((response) => {
-        // console.log(response);
         return response.data
       });
   }
@@ -24,7 +31,6 @@ class LobbyService {
   createLobby(lobbyName) {
     return this.request({method: 'POST', url: '/api/lobbies/new', data: {name: lobbyName}})
       .then((response) => response.data.lobby);
-      // .catch(error => console.log(error.response));
   }
 
   deleteLobby(lobbyId) {
