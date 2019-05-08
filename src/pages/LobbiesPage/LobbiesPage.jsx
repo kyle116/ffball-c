@@ -14,7 +14,7 @@ class LobbiesPage extends Component {
 		this.state = {
 			currentUser: null,
 			// currentUser: this.props.currentUser
-			lobbies: null,
+			lobbies: [],
 			recentlyDeleted: null,
 			lobbyName: '',
 			flashMessage: { display: false, message: '' }
@@ -50,8 +50,9 @@ class LobbiesPage extends Component {
 		  this.flashMessageToggle('Lobby name cannot be blank');
 		  return false;
 		}
-		for (var i = 0; i < this.state.lobbies.length; i++) {
-		  if(this.state.lobbies[i].name === lobbyName) {
+		var lobbies = this.state.lobbies;
+		for (var i = 0; i < lobbies.length; i++) {
+		  if(lobbies[i].name === lobbyName) {
 		    this.flashMessageToggle('Duplicate lobby name, lobby names must be unique');
 		    return false;
 		  }
@@ -119,7 +120,7 @@ class LobbiesPage extends Component {
 	          </label>
 	          <button>Create Lobby</button>
 	        </form>
-	        {this.state.lobbies ?
+	        {this.state.lobbies.length > 0 ?
 	          this.state.lobbies.map((lobby, index) =>
 	            <LobbyCard key={lobby._id} lobby={lobby} deleteLobby={this.deleteLobby}></LobbyCard>
 	          )
