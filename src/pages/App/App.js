@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 // Services
 import userService from '../../services/userService';
+// Contexts
+import { CurrentUserProvider } from '../../contexts/CurrentUserContext';
 // Pages
 import LandingPage from '../LandingPage/LandingPage';
 import LobbiesPage from '../LobbiesPage/LobbiesPage';
@@ -37,25 +39,29 @@ class App extends Component {
 	render() {
 	return (
 	<Router>
-		<div className="App">
-			<Route exact path='/' component={LandingPage} />
-			<Route
-				exact path='/lobbies'
-				render={(props) => <LobbiesPage {...props} removeCurrentUser={this.removeCurrentUser} />}
-			/>
-			<Route
-				exact path='/lobby/:lobbyId'
-				render={(props) => <LobbyPage {...props} removeCurrentUser={this.removeCurrentUser} />}
-			/>
-			<Route
-				exact path='/signup'
-				render={(props) => <SignupPage {...props} setCurrentUser={this.setCurrentUser} />}
-			/>
-			<Route
-				exact path='/login'
-				render={(props) => <LoginPage {...props} setCurrentUser={this.setCurrentUser} />}
-			/>
-		</div>
+		<CurrentUserProvider currentUser={this.state.currentUser}>
+			<div className="App">
+				<Route exact path='/' component={LandingPage} />
+				<Route
+					exact path='/lobbies'
+					render={(props) => <LobbiesPage {...props} removeCurrentUser={this.removeCurrentUser} />}
+				/>
+				
+				<Route
+					exact path='/lobby/:lobbyId'
+					render={(props) => <LobbyPage {...props} removeCurrentUser={this.removeCurrentUser} currentUser={this.state.currentUser} />}
+				/>
+				
+				<Route
+					exact path='/signup'
+					render={(props) => <SignupPage {...props} setCurrentUser={this.setCurrentUser} />}
+				/>
+				<Route
+					exact path='/login'
+					render={(props) => <LoginPage {...props} setCurrentUser={this.setCurrentUser} />}
+				/>
+			</div>
+		</CurrentUserProvider>
 	</Router>
 	);
 	}

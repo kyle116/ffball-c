@@ -10,7 +10,7 @@ class LobbyPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentUser: null,
+			currentUser: this.props.currentUser ? this.props.currentUser : null,
 			// currentUser: this.props.currentUser
 			lobby: null,
 			recentlyDeleted: null,
@@ -76,9 +76,6 @@ class LobbyPage extends Component {
 					{this.createPlayersList()}
 				</div>
 				}
-
-				
-				
 			</div>
 		);
 	}

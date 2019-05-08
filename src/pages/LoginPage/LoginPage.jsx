@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { bool } from 'prop-types';
-// services
+// Services
 import userService from '../../services/userService';
 // Stylesheets
 import './LoginPage.css';
