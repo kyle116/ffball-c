@@ -18,6 +18,7 @@ class LobbyPage extends Component {
 		}
 	    this.getLobby = this.getLobby.bind(this);
 	    this.deleteLobby = this.deleteLobby.bind(this);
+	    this.createPlayersList = this.createPlayersList.bind(this);
 	    this.flashMessageToggle = this.flashMessageToggle.bind(this);
 	}
 	componentWillMount() {
@@ -26,7 +27,7 @@ class LobbyPage extends Component {
 
 	getLobby(lobbyId) {
 		lobbyService.findLobbyById(lobbyId).then(foundLobby => {
-			console.log('foundLobby', foundLobby)
+			console.log(foundLobby)
 			this.setState({
 				lobby: foundLobby
 			})
@@ -41,6 +42,14 @@ class LobbyPage extends Component {
 		  });
 		  this.props.history.push('/lobbies');
 		});
+	}
+
+	createPlayersList() {
+		var players = [];
+		for (var i = 0; i < this.state.lobby.list.players.length; i++) {
+			players.push(<div key={this.state.lobby.list.players[i]._id}>{this.state.lobby.list.players[i].firstName + ' ' + this.state.lobby.list.players[i].lastName}</div>);
+		}
+		return players;
 	}
 
 	flashMessageToggle(message = '') {
@@ -64,8 +73,12 @@ class LobbyPage extends Component {
 				<div>
 					<div>{this.state.lobby.name}</div>
 					<button onClick={() => this.deleteLobby(this.state.lobby._id)}>Delete this Lobby</button>
+					{this.createPlayersList()}
 				</div>
 				}
+
+				
+				
 			</div>
 		);
 	}
