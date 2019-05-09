@@ -28,6 +28,14 @@ class UserService {
       });
   }
 
+  findUserById(userId) {
+    this.request.defaults.headers.common.token = this.getToken();
+    return this.request({method: 'GET', url: `/api/users/${userId}`})
+      .then((response) => {
+        return response.data
+      });
+  }
+
   // JWT functions
   getCurrentUser() {
     const token = this.getToken();

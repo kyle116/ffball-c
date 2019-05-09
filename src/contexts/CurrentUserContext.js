@@ -7,9 +7,9 @@ class CurrentUserProvider extends React.Component {
 	    super(props);
 
 	    this.state = {
-	      isAuth: this.props.currentUser ? true : false,
+	      isAuth: this.props.value.currentUser ? true : false,
 	      message: '',
-	      currentUser: this.props.currentUser
+	      currentUser: this.props.value.currentUser
 	    };
 	}
 

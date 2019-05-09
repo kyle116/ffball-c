@@ -15,7 +15,7 @@ class LandingPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentUser: '',
+			currentUser: this.props.currentUser,
 			modal: {
 				SignupPage: false,
 				LoginPage: false
@@ -49,30 +49,28 @@ class LandingPage extends Component {
 
 	render() {
 		return (
-			<CurrentUserConsumer>
-				{(context) => 
-					context.isAuth ? 
-					(<div>
-						<h1>Welcome {context.currentUser.firstName + " " + context.currentUser.lastName}</h1>
-						<Link to={'/lobbies'}>Go to lobbies</Link>
-					</div>) 
-					:
-					(<div>
-						<h1>Welcome</h1>
-						<button type="button" onClick={() => this.showModal('SignupPage')}>Sign Up Pop Up</button>
-						<Link to={'/signup'}>Sign Up Link</Link>
-						<Link to={'/login'}>Login Link</Link>
-						<button type="button" onClick={() => this.showModal('LoginPage')}>Login Pop Up</button>
-		        		
-		        		<Modal show={this.state.modal.SignupPage} handleClose={() => this.hideModal('SignupPage')}>
-							<SignupPage></SignupPage>
-						</Modal>
-						<Modal show={this.state.modal.LoginPage} handleClose={() => this.hideModal('LoginPage')}>
-							<LoginPage></LoginPage>
-						</Modal>
-					</div>)
-				}
-			</CurrentUserConsumer>
+			this.state.currentUser ? 
+				(<div>
+					{console.log('this.state', this.state.currentUser)}
+					<h1>Welcome {this.state.currentUser.firstName + " " + this.state.currentUser.lastName}</h1>
+					<Link to={'/lobbies'}>Go to lobbies</Link>
+				</div>) 
+			:
+				(<div>
+					{console.log('this.state', this.state.currentUser)}
+					<h1>Welcome</h1>
+					<button type="button" onClick={() => this.showModal('SignupPage')}>Sign Up Pop Up</button>
+					<Link to={'/signup'}>Sign Up Link</Link>
+					<Link to={'/login'}>Login Link</Link>
+					<button type="button" onClick={() => this.showModal('LoginPage')}>Login Pop Up</button>
+	        		
+	        		<Modal show={this.state.modal.SignupPage} handleClose={() => this.hideModal('SignupPage')}>
+						<SignupPage></SignupPage>
+					</Modal>
+					<Modal show={this.state.modal.LoginPage} handleClose={() => this.hideModal('LoginPage')}>
+						<LoginPage></LoginPage>
+					</Modal>
+				</div>)
 		);
 	}
 }

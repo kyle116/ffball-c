@@ -39,9 +39,12 @@ class App extends Component {
 	render() {
 	return (
 	<Router>
-		<CurrentUserProvider currentUser={this.state.currentUser}>
+		<CurrentUserProvider value={this.state}>
 			<div className="App">
-				<Route exact path='/' component={LandingPage} />
+				<Route 
+					exact path='/' 
+					render={(props) => <LandingPage {...props} currentUser={this.state.currentUser} />}
+				/>
 				<Route
 					exact path='/lobbies'
 					render={(props) => <LobbiesPage {...props} removeCurrentUser={this.removeCurrentUser} />}
