@@ -1,0 +1,8 @@
+.column-container {
+  display: table;
+  width: 100%;
+}
+.column-2 {
+	width: 49%;
+	display: table-cell;
+}

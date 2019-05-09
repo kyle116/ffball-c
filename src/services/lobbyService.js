@@ -13,8 +13,8 @@ class LobbyService {
       .then((response) => response.data);
   }
 
-  findLobbyById(lobbyId) {
-    return this.request({method: 'GET', url: `/api/lobbies/find/${lobbyId}`})
+  findLobbyById(lobbyId, currentUser) {
+    return this.request({method: 'GET', url: `/api/lobbies/find/${lobbyId}`, headers: {'currentUserId': currentUser._id}})
       .then((response) => {
         return response.data
       });
@@ -31,6 +31,11 @@ class LobbyService {
   createLobby(lobbyName) {
     return this.request({method: 'POST', url: '/api/lobbies/new', data: {name: lobbyName}})
       .then((response) => response.data.lobby);
+  }
+
+  joinLobby(lobbyId, user, lobby) {
+    return this.request({method: 'POST', url: `/api/lobbies/join/${lobbyId}`, data: {lobbyId: lobbyId, user: user, lobby: lobby}})
+      .then((response) => response.data.team);
   }
 
   deleteLobby(lobbyId) {
