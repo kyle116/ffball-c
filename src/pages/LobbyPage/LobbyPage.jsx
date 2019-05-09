@@ -16,6 +16,8 @@ class LobbyPage extends Component {
 			lobby: null,
 			teams: [],
 			recentlyDeleted: null,
+			currentUserTeam: null,
+			currentLobbyTeamsExcludeUser: null,
 			flashMessage: { display: false, message: '' }
 		}
 	    this.getLobby = this.getLobby.bind(this);
@@ -32,23 +34,24 @@ class LobbyPage extends Component {
 	}
 
 	getLobby(lobbyId) {
-		console.log(this.state.currentUser)
 		lobbyService.findLobbyById(lobbyId, this.state.currentUser).then(response => {
-			console.log('response', response)
 			this.setState({
 				lobby: response.lobby,
 				teams: response.lobby.teams,
-				currentUserJoined: response.currentUserJoined
+				currentUserJoined: response.currentUserJoined,
+				currentUserTeam: response.currentUserTeam,
+				currentLobbyTeamsExcludeUser: response.currentLobbyTeamsExcludeUser
 			})
 		})
 	}
 
 	joinLobby(lobbyId) {
-		lobbyService.joinLobby(lobbyId, this.state.currentUser, this.state.lobby)
-		.then(team => {
-			console.log(team)
+		lobbyService.joinLobby(lobbyId, this.state.currentUser, this.state.lobby).then(response => {
 			this.setState({
-				currentTeam: team
+				teams: response.currentLobbyTeams,
+				currentUserTeam: response.currentUserTeam,
+				currentUserJoined: response.currentUserJoined,
+				currentLobbyTeamsExcludeUser: response.currentLobbyTeamsExcludeUser
 			})
 		})
 	}
@@ -97,9 +100,10 @@ class LobbyPage extends Component {
 					</div>
 					<div className="column-container">
 						<div className="column-2">
+						{this.state.currentUserTeam && <Team key={this.state.currentUserTeam._id} currentUser={this.state.currentUser} currentLobby={this.state.lobby} team={this.state.currentUserTeam}/> }
 						{
 							this.state.teams.map((team) => {
-								return <Team key={team._id} currentUser={this.state.currentUser} currentLobby={this.state.lobby} team={team}/>
+								return team._id !== this.state.currentUserTeam._id && <Team key={team._id} currentUser={this.state.currentUser} currentLobby={this.state.lobby} team={team}/>
 							})
 						}
 						</div>

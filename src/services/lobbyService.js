@@ -35,7 +35,7 @@ class LobbyService {
 
   joinLobby(lobbyId, user, lobby) {
     return this.request({method: 'POST', url: `/api/lobbies/join/${lobbyId}`, data: {lobbyId: lobbyId, user: user, lobby: lobby}})
-      .then((response) => response.data.team);
+      .then((response) => response.data);
   }
 
   deleteLobby(lobbyId) {
