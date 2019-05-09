@@ -11,8 +11,8 @@ class LogoutButton extends Component {
 	}
 
 	logOut() {
-	    this.props.removeCurrentUser();
 	    this.props.history.push('/');
+	    this.props.removeCurrentUser();
 	}
 
 	render() {

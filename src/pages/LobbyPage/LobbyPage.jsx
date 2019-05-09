@@ -102,8 +102,8 @@ class LobbyPage extends Component {
 						<div className="column-2">
 						{this.state.currentUserTeam && <Team key={this.state.currentUserTeam._id} currentUser={this.state.currentUser} currentLobby={this.state.lobby} team={this.state.currentUserTeam}/> }
 						{
-							this.state.teams.map((team) => {
-								return team._id !== this.state.currentUserTeam._id && <Team key={team._id} currentUser={this.state.currentUser} currentLobby={this.state.lobby} team={team}/>
+							this.state.currentLobbyTeamsExcludeUser.map((team) => {
+								return <Team key={team._id} currentUser={this.state.currentUser} currentLobby={this.state.lobby} team={team}/>
 							})
 						}
 						</div>
