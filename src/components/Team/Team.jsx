@@ -16,14 +16,11 @@ class Team extends Component {
 			team: this.props.team,
 			user: null
 		}
-	    // this.getLobby = this.getLobby.bind(this);
 	}
 
 	componentWillMount() {
-		console.log('this.props', this.props)
 		if(this.props.user) {
 			userService.findUserById(this.props.user).then(response => {
-				console.log('response', response)
 				this.setState({
 					user: response.user
 				})

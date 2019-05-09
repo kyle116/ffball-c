@@ -51,13 +51,11 @@ class LandingPage extends Component {
 		return (
 			this.state.currentUser ? 
 				(<div>
-					{console.log('this.state', this.state.currentUser)}
 					<h1>Welcome {this.state.currentUser.firstName + " " + this.state.currentUser.lastName}</h1>
 					<Link to={'/lobbies'}>Go to lobbies</Link>
 				</div>) 
 			:
 				(<div>
-					{console.log('this.state', this.state.currentUser)}
 					<h1>Welcome</h1>
 					<button type="button" onClick={() => this.showModal('SignupPage')}>Sign Up Pop Up</button>
 					<Link to={'/signup'}>Sign Up Link</Link>

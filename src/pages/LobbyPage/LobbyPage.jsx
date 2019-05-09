@@ -47,7 +47,6 @@ class LobbyPage extends Component {
 
 	joinLobby(lobbyId) {
 		lobbyService.joinLobby(lobbyId, this.state.currentUser, this.state.lobby).then(response => {
-			console.log('currentLobbyTeamsExcludeUser', response.currentLobbyTeamsExcludeUser)
 			this.setState({
 				teams: response.currentLobbyTeams,
 				currentUserTeam: response.currentUserTeam,

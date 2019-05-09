@@ -22,7 +22,6 @@ class UserService {
           this.setToken(token)
           return jwtDecode(token);
         } else {
-          console.log(response.data);
           return response.data
         }
       });
