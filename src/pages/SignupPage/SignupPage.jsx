@@ -28,6 +28,7 @@ class SignupPage extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.flashMessageToggle = this.flashMessageToggle.bind(this);
 		this.validateEmail = this.validateEmail.bind(this);
+		this.setCurrentUser = this.setCurrentUser.bind(this);
 	}
 
 	handleInputChange(event) {
@@ -52,17 +53,25 @@ class SignupPage extends Component {
 		    password: this.state.signupData.password
 		  }
 		} catch(error) {
-		  console.log(error);
+		  console.error(error);
 		}
 
 		if(!loginCredentials.hasOwnProperty('email') || !loginCredentials.hasOwnProperty('password')) return console.error('User signup failed');
 
 		try {
 		  const loginUser = await userService.loginUser(loginCredentials);
+		  // Login, sets current user to state, then sets App.js state with currentUser to use globally as props
+	      this.setState({
+	        currentUser: loginUser
+	      }, this.setCurrentUser);
 		  this.props.history.push('/lobbies');
 		} catch(error) {
-		  console.log(error);
+		  console.error(error);
 		}
+	}
+
+	setCurrentUser() {
+		this.props.setCurrentUser(this.state.currentUser);
 	}
 
 	validateEmail(email) {

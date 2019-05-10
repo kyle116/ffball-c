@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 // Services
-import lobbyService from '../../services/lobbyService';
 import userService from '../../services/userService';
-// Components
-import FlashMessage from '../../components/FlashMessage/FlashMessage';
 // Stylesheets
 import './Team.css';
 

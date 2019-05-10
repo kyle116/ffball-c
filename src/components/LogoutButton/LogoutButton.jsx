@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// Services
-import userService from '../../services/userService';
 // Stylesheets
 import './LogoutButton.css';
 

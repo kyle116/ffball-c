@@ -4,10 +4,6 @@ import {BrowserRouter as Router, Route, Redirect, Link} from 'react-router-dom';
 import SignupPage from '../SignupPage/SignupPage';
 import LoginPage from '../LoginPage/LoginPage';
 import Modal from '../../components/Modal/Modal';
-// Services
-import lobbyService from '../../services/lobbyService';
-// Contexts
-import { CurrentUserConsumer } from '../../contexts/CurrentUserContext';
 // Stylesheets
 import './LandingPage.css';
 

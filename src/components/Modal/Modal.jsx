@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 // Stylesheets
 import './Modal.css';
 
@@ -9,7 +9,7 @@ const Modal = ({ handleClose, show, children }) => {
   return (
     <div className={showHideClassName ? "modal display-block" : "modal display-none"}>
       <div className="popup">
-        <a className="close" href="#" onClick={handleClose}>&times;</a>
+        <a className="close" onClick={handleClose}>&times;</a>
         <div className="content">
           {children}
         </div>

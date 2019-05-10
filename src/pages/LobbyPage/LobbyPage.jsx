@@ -12,7 +12,6 @@ class LobbyPage extends Component {
 		super(props);
 		this.state = {
 			currentUser: this.props.currentUser ? this.props.currentUser : null,
-			// currentUser: this.props.currentUser
 			lobby: null,
 			teams: [],
 			recentlyDeleted: null,
@@ -28,9 +27,6 @@ class LobbyPage extends Component {
 	}
 	componentWillMount() {
 		this.getLobby(this.props.match.params.lobbyId);
-		for (var i = 0; i < this.state.teams.length; i++) {
-			this.state.teams[i].user
-		}
 	}
 
 	getLobby(lobbyId) {

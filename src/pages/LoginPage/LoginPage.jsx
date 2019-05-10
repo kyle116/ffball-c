@@ -10,7 +10,7 @@ class LoginPage extends Component {
 	super(props);
     this.state = {
       modal: this.props.modal,
-      signupData: {
+      loginData: {
         login: '',
         password: ''
       },
@@ -25,21 +25,21 @@ class LoginPage extends Component {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    const signupData = this.state.signupData;
-    signupData[name] = value;
-    console.log(signupData);
+    const loginData = this.state.loginData;
+    loginData[name] = value;
+    console.log(loginData);
 
-    this.setState({signupData});
+    this.setState({loginData});
   }
 
   async handleSubmit(e) {
     e.preventDefault();
-    const signupData = this.state.signupData;
+    const loginData = this.state.loginData;
     var loginCredentials;
     loginCredentials = {
-      email: this.state.signupData.login.includes('@') ? this.state.signupData.login : '',
-      username: !this.state.signupData.login.includes('@') ? this.state.signupData.login : '',
-      password: this.state.signupData.password
+      email: loginData.login.includes('@') ? loginData.login : '',
+      username: !loginData.login.includes('@') ? loginData.login : '',
+      password: loginData.password
     }
     console.log(loginCredentials);
 
@@ -69,7 +69,7 @@ class LoginPage extends Component {
             Email:
             <input
               name="login"
-              value={this.state.signupData.login}
+              value={this.state.loginData.login}
               onChange={this.handleInputChange} />
           </label>
           <label>
@@ -77,7 +77,7 @@ class LoginPage extends Component {
             <input
               name="password"
               type="password"
-              value={this.state.signupData.password}
+              value={this.state.loginData.password}
               onChange={this.handleInputChange} />
           </label>
           <button>Login</button>
