@@ -47,7 +47,7 @@ class App extends Component {
 				/>
 				<Route
 					exact path='/lobbies'
-					render={(props) => <LobbiesPage {...props} removeCurrentUser={this.removeCurrentUser} />}
+					render={(props) => <LobbiesPage {...props} removeCurrentUser={this.removeCurrentUser} currentUser={this.state.currentUser} />}
 				/>
 				
 				<Route

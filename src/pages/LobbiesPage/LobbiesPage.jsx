@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import io from 'socket.io-client';
 // Services
 import lobbyService from '../../services/lobbyService';
 // Components
@@ -12,12 +13,12 @@ class LobbiesPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentUser: null,
-			// currentUser: this.props.currentUser
+			currentUser: this.props.currentUser ? this.props.currentUser : null,
 			lobbies: [],
 			recentlyDeleted: null,
 			lobbyName: '',
-			flashMessage: { display: false, message: '' }
+			flashMessage: { display: false, message: '' },
+			testSocket: ''
 		}
 	    this.getLobbies = this.getLobbies.bind(this);
 	    this.onChange = this.onChange.bind(this);
@@ -25,10 +26,50 @@ class LobbiesPage extends Component {
 	    this.createLobby = this.createLobby.bind(this);
 	    this.deleteLobby = this.deleteLobby.bind(this);
 	    this.flashMessageToggle = this.flashMessageToggle.bind(this);
+
+	    // this.socket = io('localhost:3001');
+	    this.testSocket = this.testSocket.bind(this);
+	    // console.log('this.socket', this.socket)
+	    const addMessage = data => {
+            console.log(data);
+            this.setState({testSocket: [...this.state.testSocket, data]});
+            console.log(this.state.testSocket);
+        };
+
+	 //    this.socket.on('RECEIVE_MESSAGE', function(data){
+		//     addMessage(data);
+		// });
 	}
 	componentDidMount() {
 		this.getLobbies();
+		this.socket = io('localhost:3001');
+		// io.on('connection', function(socket){
+		// 	console.log('IO Connected', socket);
+		// });
+
+		// this.socket.sockets.on('connection', function (client) {
+		// 	client.send("hello")
+		// 	console.log("hello", client)
+		// })
+		console.log('sockets', this.socket)
+
+		this.socket.on('connection', function (socket) {
+			console.log('Socket Connected', socket);
+			socket.on('connection', function () {
+				console.log('Socket Connected', socket);
+			});
+			socket.on('disconnect', function () { });
+		});
+
+		this.socket.on('RECEIVE_MESSAGE', function(data){
+		    // addMessage(data);
+		});
 	}
+
+	componentWillUnmount() {
+		this.socket.disconnect();
+	}
+
 
 	getLobbies() {
 		lobbyService.getLobbies().then(lobbies => {
@@ -98,6 +139,19 @@ class LobbiesPage extends Component {
 		if(message) console.error(message);
 	}
 
+	testSocket(e) {
+		e.preventDefault();
+		console.log('socket test', {
+	        author: this.state.currentUser.firstName,
+	        message: 'hello'
+	    })
+	    this.socket.emit('TEST_SOCKET', {
+	        author: this.state.currentUser.firstName,
+	        message: 'hello'
+	    });
+	    this.setState({testSocket: ''});
+	}
+
 	render() {
 		return (
 			<div>
@@ -120,6 +174,7 @@ class LobbiesPage extends Component {
 	          </label>
 	          <button>Create Lobby</button>
 	        </form>
+	        <button onClick={this.testSocket}>Test Socket</button>
 	        {this.state.lobbies.length > 0 ?
 	          this.state.lobbies.map((lobby, index) =>
 	            <LobbyCard key={lobby._id} lobby={lobby} deleteLobby={this.deleteLobby}></LobbyCard>
